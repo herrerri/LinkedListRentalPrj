@@ -135,9 +135,13 @@ public class GUICampReservationSystem extends JFrame implements ActionListener{
         if (overDueItemScn == comp)
             DList.setDisplay(ScreenDisplay.OverdueGuest);
 
+        if (sortRvTentItemScn == comp)
+            DList.setDisplay(ScreenDisplay.RvTent);
 
+        if (sortTentRvItemScn == comp)
+            DList.setDisplay(ScreenDisplay.TentRv);
 
-        if (openSerItem == comp || openTextItem == comp) {
+        if (openSerItem == comp) {
             JFileChooser chooser = new JFileChooser();
             int status = chooser.showOpenDialog(null);
             if (status == JFileChooser.APPROVE_OPTION) {
@@ -147,13 +151,33 @@ public class GUICampReservationSystem extends JFrame implements ActionListener{
             }
         }
 
-        if (saveSerItem == comp || saveTextItem == comp) {
+        if (openTextItem == comp){
+            JFileChooser chooser = new JFileChooser();
+            int status = chooser.showOpenDialog(null);
+            if (status == JFileChooser.APPROVE_OPTION) {
+                String filename = chooser.getSelectedFile().getAbsolutePath();
+                if (openTextItem == comp)
+                    DList.loadText(filename);
+            }
+        }
+
+        if (saveSerItem == comp) {
             JFileChooser chooser = new JFileChooser();
             int status = chooser.showSaveDialog(null);
             if (status == JFileChooser.APPROVE_OPTION) {
                 String filename = chooser.getSelectedFile().getAbsolutePath();
-                if (saveSerItem == e.getSource())
+                if (saveSerItem == comp)
                     DList.saveDatabase(filename);
+            }
+        }
+
+        if (saveTextItem == comp) {
+            JFileChooser chooser = new JFileChooser();
+            int status = chooser.showSaveDialog(null);
+            if (status == JFileChooser.APPROVE_OPTION) {
+                String filename = chooser.getSelectedFile().getAbsolutePath();
+                if (saveTextItem == comp)
+                    DList.saveText(filename);
             }
         }
 
@@ -179,7 +203,7 @@ public class GUICampReservationSystem extends JFrame implements ActionListener{
         if (checkOutItem == e.getSource()) {
             int index = jTable.getSelectedRow();
             if (index != -1) {
-                GregorianCalendar dat = new GregorianCalendar();
+                GregorianCalendar date = new GregorianCalendar();
 
                 CampSite unit = DList.get(index);
                 CheckOutOnDialog dialog = new CheckOutOnDialog(this, unit);

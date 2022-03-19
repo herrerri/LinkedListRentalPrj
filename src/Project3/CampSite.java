@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import java.time.temporal.ChronoUnit;
 
 public abstract class CampSite implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -22,6 +23,10 @@ public abstract class CampSite implements Serializable {
                     GregorianCalendar checkIn,
                     GregorianCalendar estimatedCheckOut,
                     GregorianCalendar actualCheckOut) {
+        int daysBetween = (int) ChronoUnit.DAYS.between(checkIn.toInstant(), estimatedCheckOut.toInstant());
+        if (daysBetween < 1){
+            throw new IllegalArgumentException("Estimated CheckOut must be after CheckIn");
+        }
         this.guestName = guestName;
         this.checkIn = checkIn;
         this.estimatedCheckOut = estimatedCheckOut;
@@ -49,6 +54,10 @@ public abstract class CampSite implements Serializable {
     }
 
     public void setEstimatedCheckOut(GregorianCalendar estimatedCheckOut) {
+        int daysBetween = (int) ChronoUnit.DAYS.between(checkIn.toInstant(), estimatedCheckOut.toInstant());
+        if (daysBetween < 1){
+            throw new IllegalArgumentException("CheckOut must be after CheckIn");
+        }
         this.estimatedCheckOut = estimatedCheckOut;
     }
 
@@ -57,6 +66,10 @@ public abstract class CampSite implements Serializable {
     }
 
     public void setActualCheckOut(GregorianCalendar actualCheckOut) {
+        int daysBetween = (int) ChronoUnit.DAYS.between(checkIn.toInstant(), actualCheckOut.toInstant());
+        if (daysBetween < 1){
+            throw new IllegalArgumentException("CheckOut must be after CheckIn");
+        }
         this.actualCheckOut = actualCheckOut;
     }
 

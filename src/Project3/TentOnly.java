@@ -24,6 +24,9 @@ public class TentOnly extends CampSite {
     }
 
     public void setNumberOfTenters(int numberOfTenters) {
+        if (numberOfTenters < 1){
+            throw new IllegalArgumentException("Must have a positive amount of tenters");
+        }
         this.numberOfTenters = numberOfTenters;
     }
 
@@ -31,8 +34,12 @@ public class TentOnly extends CampSite {
     public double getCost(GregorianCalendar checkOut) {
 
         int daysBetween = (int) ChronoUnit.DAYS.between(checkIn.toInstant(), checkOut.toInstant());
+
+        if (daysBetween < 1)
+            throw new IllegalArgumentException("Checkout cannot be on the day of CheckIn or before");
+
         double cost = 10;
-        if (this.numberOfTenters>10){
+        if (this.numberOfTenters > 10){
             cost+=10;
         }
         cost*=daysBetween;

@@ -112,7 +112,9 @@ public class ReservationRVDialog extends JDialog implements ActionListener {
                 rv.setEstimatedCheckOut(gregTemp);
 
             } catch (ParseException e1) {
-//                  Do some thing good, what I am not sure.
+                throw new RuntimeException("Error in the creation of list");
+            } catch (IllegalArgumentException e1){
+                throw new IllegalArgumentException("Did our best to fix this one but its too far gone now");
             }
 
             rv.setGuestName(txtGuestName.getText());
